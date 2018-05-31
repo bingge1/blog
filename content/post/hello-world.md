@@ -2,6 +2,9 @@
 title: "Markdown 学习"
 date: 2018-05-31T10:29:11+08:00
 draft: true
+tags: ["hugo","xx"]
+series: ["Blog养成记"]
+categories: ["杂技浅尝"]
 ---
 
 

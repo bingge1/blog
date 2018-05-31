@@ -14,6 +14,24 @@
         {{ end }}
       </ul>
       {{ end }}
+
+
+      <div id="git-comments"></div>
+      <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+      <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+      <script>
+        var gitment = new Gitment({
+          id: '{{ .Slug }}',  // 可选, 默认为 location.href
+          owner: 'bingge1',
+          repo: 'github.com/bingge1/gitment',
+          oauth: {
+            client_id: 'a30908dbebd6d9831d13',
+            client_secret: 'e4ec88d0c5342b409a97e7a11a4032d98ef6eb14',
+          }
+        })
+        gitment.render('git-comments')
+      </script>
+
       <p class="post-copyright">
         {{ if .Site.Copyright }}{{ .Site.Copyright }}{{ end }}{{ if gt (div (sub now.Unix .Lastmod.Unix) 86400) 100 }}This post was published <strong>{{ div (sub now.Unix .Lastmod.Unix) 86400 }}</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.{{ end }}
       </p>
@@ -35,5 +53,6 @@
       {{ else }}{{ end }}
     {{ end }}
   </section>
+
   {{ partial "footer.html" . }}
 {{ end }}

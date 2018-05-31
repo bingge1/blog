@@ -6,8 +6,6 @@ enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true
 
-# Disqus Username
-disqusShortname = "disqus_shortname"
 
 # Google Analytics UA number
 googleAnalytics = "UA-XXXXXXXX-X"

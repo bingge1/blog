@@ -36,7 +36,7 @@ copyright = "© This post is licensed under a Creative Commons Attribution-NonCo
 
 # Add your own params here
 [params]
-  author = "Ritchie Zhu"
+  author = "Jon Chiang"
   avatar = "/img/avatar.jpg"
   seotitle = "Hugo Blog (SEO Version)"
   subtitle = "~ Keep It Simple & Stupid ~"

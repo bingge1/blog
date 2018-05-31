@@ -169,7 +169,7 @@ $$ evidence\_{i}=\sum\_{j}W\_{ij}x\_{j}+b\_{i} $$
 
 引入 [Code Pen](https://codepen.io/) 网站的代码演示，在主题目录 `layouts/shortcodes` 文件夹下的 `codepen.html` 对该标签进行定义。
 
-{{% codepen "RoaWdE" "🐍 Snake Rush" "laozhu" "Ritchie Zhu" "600" %}}
+{{% codepen "RoaWdE" "🐍 Snake Rush" "laozhu" "Jon Chiang" "600" %}}
 
 ## 12. 声享 PPT
 

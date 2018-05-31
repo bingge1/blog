@@ -1,5 +1,5 @@
 baseURL = "http://www.inspires.cn"
-languageCode = "en"
+languageCode = "zh-cn"
 title = "Blog For Blockchain"
 theme = "hugo-nuo"
 enableRobotsTXT = true

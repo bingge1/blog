@@ -24,7 +24,7 @@ Follow the following steps:
  1. Clone the [hugo repository](http://github.com/spf13/hugo)
  2. Go into the repo
  3. Run hugo in server mode and build the docs
- 4. Open your browser to http://
+ 4. Open your browser to http://localhost:1313
 
 Corresponding pseudo commands:
 
@@ -34,7 +34,7 @@ Corresponding pseudo commands:
     > 29 pages created
     > 0 tags index created
     > in 27 ms
-    > Web Server is available at http://
+    > Web Server is available at http://localhost:1313
     > Press ctrl+c to stop
 
 Once you've gotten here, follow along the rest of this page on your local build.
@@ -49,7 +49,7 @@ Now we are going to run hugo again, but this time with hugo in watch mode.
     > 29 pages created
     > 0 tags index created
     > in 27 ms
-    > Web Server is available at http://
+    > Web Server is available at http://localhost:1313
     > Watching for changes in /Users/spf13/Code/hugo/docs/content
     > Press ctrl+c to stop
 

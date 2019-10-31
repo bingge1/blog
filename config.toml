@@ -1,7 +1,7 @@
 baseURL = "http://www.inspires.cn"
 languageCode = "zh-cn"
 title = "Blog For Blockchain"
-theme = "hugo-nuo"
+theme = "hyde"
 enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>公有链 on Blog For Blockchain</title>
+    <link>http://www.inspires.cn/tags/%E5%85%AC%E6%9C%89%E9%93%BE.html</link>
+    <description>Recent content in 公有链 on Blog For Blockchain</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you wish to quote or reproduce.</copyright>
+    <lastBuildDate>Fri, 15 Jun 2018 09:58:26 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.inspires.cn/tags/%E5%85%AC%E6%9C%89%E9%93%BE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>区块链的分类（联盟链、公有链、私有链）以及区别</title>
+      <link>http://www.inspires.cn/post/blockchain-classification.html</link>
+      <pubDate>Fri, 15 Jun 2018 09:58:26 +0800</pubDate>
+      
+      <guid>http://www.inspires.cn/post/blockchain-classification.html</guid>
+      <description>&amp;emsp;区块链在今年是彻底火了，有眼光的技术人员早在几年前就开始学习区块链技术了，有眼光的投机客现在更是财富自由走向人生巅峰，哈哈！可惜本人入的晚， 不过只要肯学什么时候都还来得及。 区块链主要分为以下三种类型：
+  “公有链”（Public blockchain） “私有链”（Private blockchain） “联盟链”（Consortium blockchain）    公有链：世界上所有人都可以阅读和发送交易。如果他们合法都有希望看到自己被包括在内。世界上任何人都能参与到共识形成过程——决定在链条上添加什么区块以及现状是怎样的。作为中心化或准中心化信任的替代品，公有链受加密经济的保护，加密经济是经济激励和加密图形验证的结合，用类似工作量证明或权益证明的机制，遵循的总原则是人们影响共识形成的程度和他们能够影响的经济资源数量成正比。这类区块链通常被认为是“完全去中心化“。   &amp;emsp;公有链比较典型的代表有各类虚拟数字货币，比如 BTC/ETH/LTC以及快要上线的EOS等（EOS目前只是依附于ETH的TOKEN，翻译为代币，并不是Coin) 公有链是目前应用最为广泛的区块链，主要有四方面的特点。*
+  访问门槛低，任何一个用户只要拥有一台能够联网的计算机就能够访问; 公开透明，由于整个系统“完全去中心化“，系统运作过程公开透明; 匿名性，由于节点之间无需彼此信任，所有的操作都可以匿名进行，很好地保护了隐私; 免受开发者影响，公有链数据的读写不受到任何组织或个人的控制，因此也能够保护用户免于程序开发者的影响。    联盟链：共识形成过程由预先选择的一系列的节点所掌控，例如，设想一个有15个金融机构的团体，每个机构都操作一个节点，为了使区块生效，其中的10个必须签署那个区块。阅读区块链的权利可能是公开的，或仅限于参与者，也有混合的路径，比如区块的根散表和应用程序编程接口一起公开，使公共成员可以进行一定量的查询，重获一部分区块链状态的加密图形证明。这类区块链被认为是“部分去中心化”。联盟链偏向企业级应用或者若干授权组织联合运行。 联盟链的代表项目有：IBM的fabric（联盟链的平台），chain.com    低成本运行和维护 高交易速度及良好的扩展性 联盟维护、比私有链更具可信度 不是完全的去中心化应用 代码实现逻辑比公有链要简单    私有链：完全私有的区块链是指其写入权限仅在一个组织手里的区块链。读取权限或者对外开放，或者被任意程度地进行了限制。相关的应用囊括数据库管理、审计、甚至一个公司，尽管在有些情况下希望它能有公共的可审计性，但在很多的情形下，公共的可读性并非是必须的。 在某些情况下，私有链上的一些规则，可以被机构修改，比如还原交易流程等服务。私有链的应用更偏向于企业内部的应用。     交易速度非常之快 给隐私更好的保障 交易成本大幅降低   </description>
+    </item>
+    
+  </channel>
+</rss>

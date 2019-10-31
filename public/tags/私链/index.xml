@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>私链 on Blog For Blockchain</title>
+    <link>http://www.inspires.cn/tags/%E7%A7%81%E9%93%BE.html</link>
+    <description>Recent content in 私链 on Blog For Blockchain</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you wish to quote or reproduce.</copyright>
+    <lastBuildDate>Fri, 01 Jun 2018 22:21:12 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.inspires.cn/tags/%E7%A7%81%E9%93%BE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>以太坊入门——搭建以太坊私链环境</title>
+      <link>http://www.inspires.cn/post/eth-build-private-chain.html</link>
+      <pubDate>Fri, 01 Jun 2018 22:21:12 +0800</pubDate>
+      
+      <guid>http://www.inspires.cn/post/eth-build-private-chain.html</guid>
+      <description>一、为什么要搭建私链 已经有以太坊公链了，我们为什么还要搭建自己的私链程序呢？一方面搭建私链可以让我们更好的理解以太坊的工作模式，另一方面以太坊私链可以帮我们节省大量的 资金（以太坊公链上都是任何操作都是需要消耗gas的，也就是说真金白银的，部署合约、转账都是需要花费真实以太坊的），所以我们搭建一个以太坊私链，作为我们的学习/开发/测试环境
+二、安装Geth程序 1、通过源码安装 有Golang基础和开发环境的同学，可以通过源码安装Geth程序，另编译Geth程序需要C编译环境。
+$ git clone git@github.com:ethereum/go-ethereum.git $ cd go-ethereum $ make geth $ make all 1、直接通过可执行文件安装 点击 https://geth.ethereum.org/downloads/ 跳转到下载页面选择最新的匹配当前操作系统的Geth程序下载 如果是Windows 直接点击https://gethstore.blob.core.windows.net/builds/geth-windows-amd64-1.8.10-eae63c51.exe下载可执行文件
+三、搭建以太坊私链环境 在合适的目录创建一个 genesis.json 文件，本示例路径为 E://eth/priChain/genesis.json 这个文件里面主要是一些创世区块的参数
+{ &amp;#34;config&amp;#34;: { &amp;#34;chainId&amp;#34;: 0, &amp;#34;homesteadBlock&amp;#34;: 0, &amp;#34;eip155Block&amp;#34;: 0, &amp;#34;eip158Block&amp;#34;: 0 }, &amp;#34;alloc&amp;#34; : {}, &amp;#34;coinbase&amp;#34; : &amp;#34;0x0000000000000000000000000000000000000000&amp;#34;, &amp;#34;difficulty&amp;#34; : &amp;#34;0x20000&amp;#34;, &amp;#34;extraData&amp;#34; : &amp;#34;&amp;#34;, &amp;#34;gasLimit&amp;#34; : &amp;#34;0x2fefd8&amp;#34;, &amp;#34;nonce&amp;#34; : &amp;#34;0x0000000000000042&amp;#34;, &amp;#34;mixhash&amp;#34; : &amp;#34;0x0000000000000000000000000000000000000000000000000000000000000000&amp;#34;, &amp;#34;parentHash&amp;#34; : &amp;#34;0x0000000000000000000000000000000000000000000000000000000000000000&amp;#34;, &amp;#34;timestamp&amp;#34; : &amp;#34;0x00&amp;#34; } 然后我们就可以初始化我们的创世区块了</description>
+    </item>
+    
+  </channel>
+</rss>

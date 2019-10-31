@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>以太坊开发 on Blog For Blockchain</title>
+    <link>http://www.inspires.cn/series/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91.html</link>
+    <description>Recent content in 以太坊开发 on Blog For Blockchain</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you wish to quote or reproduce.</copyright>
+    <lastBuildDate>Thu, 07 Jun 2018 11:52:48 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.inspires.cn/series/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Geth 命令行简析</title>
+      <link>http://www.inspires.cn/post/geth-command-help-cn.html</link>
+      <pubDate>Thu, 07 Jun 2018 11:52:48 +0800</pubDate>
+      
+      <guid>http://www.inspires.cn/post/geth-command-help-cn.html</guid>
+      <description>英文好的童鞋可以直接看运行程序的帮助文档
+geth &amp;ndash;help
+当然也可以访问github上的wiki文档查看，地址为：
+https://github.com/ethereum/go-ethereum/wiki
+本文geth版本为
+$ geth version Geth Version: 1.8.10-stable Git Commit: eae63c511ceafab14b92e274c1b18bf1700e2d3d Architecture: amd64 Protocol Versions: [63 62] Network Id: 1 Go Version: go1.10.1 Operating System: linux GOPATH=/usr/local/GOPATH GOROOT=/usr/local/go 我们看一下命令行参数帮助文档
+$ geth -h NAME: geth - the go-ethereum command line interface Copyright 2013-2018 The go-ethereum Authors USAGE: geth [options] command [command options] [arguments...] VERSION: 1.8.10-stable-eae63c51 COMMANDS: account 管理账户 attach 启动交互式Javascript环境（连接已经运行的节点可以是geth或者parity） bug 打开一个窗口上报bug到Issues console 启动交互式Javascript环境 copydb 从目标文件夹创建本地链 dump 将特定块从存储中转储 dumpconfig 显示配置信息 export 导出区块链数据到文件 export-preimages 导出数据库预图像到 RLP 流 import 从指定区块链文件导入 import-preimages 从指定RLP流导入到数据库预图像 init 引导和初始化一个创世区块，一般在搭建私链的时候用到 js 运行指定Javascript文件 license 显示许可信息 makecache 生成ethash验证缓存(用于测试) makedag 生成ethash 挖矿DAG(用于测试) monitor 监控和可视化节点指标 removedb 删除区块链和状态数据库 version 打印当前版本信息 wallet 管理以太坊预售钱包 help, h 显示命令行帮助信息 ETHEREUM OPTIONS: --config value TOML 配置文件 --datadir &amp;#34;/root/.</description>
+    </item>
+    
+    <item>
+      <title>以太坊入门——搭建以太坊私链环境</title>
+      <link>http://www.inspires.cn/post/eth-build-private-chain.html</link>
+      <pubDate>Fri, 01 Jun 2018 22:21:12 +0800</pubDate>
+      
+      <guid>http://www.inspires.cn/post/eth-build-private-chain.html</guid>
+      <description>一、为什么要搭建私链 已经有以太坊公链了，我们为什么还要搭建自己的私链程序呢？一方面搭建私链可以让我们更好的理解以太坊的工作模式，另一方面以太坊私链可以帮我们节省大量的 资金（以太坊公链上都是任何操作都是需要消耗gas的，也就是说真金白银的，部署合约、转账都是需要花费真实以太坊的），所以我们搭建一个以太坊私链，作为我们的学习/开发/测试环境
+二、安装Geth程序 1、通过源码安装 有Golang基础和开发环境的同学，可以通过源码安装Geth程序，另编译Geth程序需要C编译环境。
+$ git clone git@github.com:ethereum/go-ethereum.git $ cd go-ethereum $ make geth $ make all 1、直接通过可执行文件安装 点击 https://geth.ethereum.org/downloads/ 跳转到下载页面选择最新的匹配当前操作系统的Geth程序下载 如果是Windows 直接点击https://gethstore.blob.core.windows.net/builds/geth-windows-amd64-1.8.10-eae63c51.exe下载可执行文件
+三、搭建以太坊私链环境 在合适的目录创建一个 genesis.json 文件，本示例路径为 E://eth/priChain/genesis.json 这个文件里面主要是一些创世区块的参数
+{ &amp;#34;config&amp;#34;: { &amp;#34;chainId&amp;#34;: 0, &amp;#34;homesteadBlock&amp;#34;: 0, &amp;#34;eip155Block&amp;#34;: 0, &amp;#34;eip158Block&amp;#34;: 0 }, &amp;#34;alloc&amp;#34; : {}, &amp;#34;coinbase&amp;#34; : &amp;#34;0x0000000000000000000000000000000000000000&amp;#34;, &amp;#34;difficulty&amp;#34; : &amp;#34;0x20000&amp;#34;, &amp;#34;extraData&amp;#34; : &amp;#34;&amp;#34;, &amp;#34;gasLimit&amp;#34; : &amp;#34;0x2fefd8&amp;#34;, &amp;#34;nonce&amp;#34; : &amp;#34;0x0000000000000042&amp;#34;, &amp;#34;mixhash&amp;#34; : &amp;#34;0x0000000000000000000000000000000000000000000000000000000000000000&amp;#34;, &amp;#34;parentHash&amp;#34; : &amp;#34;0x0000000000000000000000000000000000000000000000000000000000000000&amp;#34;, &amp;#34;timestamp&amp;#34; : &amp;#34;0x00&amp;#34; } 然后我们就可以初始化我们的创世区块了</description>
+    </item>
+    
+  </channel>
+</rss>

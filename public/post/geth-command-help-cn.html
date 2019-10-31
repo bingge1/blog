@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Geth 命令行简析</title>
+
+  
+  
+
+
+
+
+
+  
+  <meta name="author" content="Jon Chiang" />
+  <meta name="description" content="英文好的童鞋可以直接看运行程序的帮助文档
+geth &amp;ndash;help
+当然也可以访问github上的wiki文档查看，地址为：
+https://github.com/ethereum/go-ethereum/wiki
+本文geth版本为
+$ geth version Geth Version: 1.8.10-stable Git Commit: eae63c511ceafab14b92e274c1b18bf1700e2d3d Architecture: amd64 Protocol Versions: [63 62] Network Id: 1 Go Version: go1.10.1 Operating System: linux GOPATH=/usr/local/GOPATH GOROOT=/usr/local/go 我们看一下命令行参数帮助文档
+$ geth -h NAME: geth - the go-ethereum command line interface Copyright 2013-2018 The go-ethereum Authors USAGE: geth [options] command [command options] [arguments...] VERSION: 1.8.10-stable-eae63c51 COMMANDS: account 管理账户 attach 启动交互式Javascript环境（连接已经运行的节点可以是geth或者parity） bug 打开一个窗口上报bug到Issues console 启动交互式Javascript环境 copydb 从目标文件夹创建本地链 dump 将特定块从存储中转储 dumpconfig 显示配置信息 export 导出区块链数据到文件 export-preimages 导出数据库预图像到 RLP 流 import 从指定区块链文件导入 import-preimages 从指定RLP流导入到数据库预图像 init 引导和初始化一个创世区块，一般在搭建私链的时候用到 js 运行指定Javascript文件 license 显示许可信息 makecache 生成ethash验证缓存(用于测试) makedag 生成ethash 挖矿DAG(用于测试) monitor 监控和可视化节点指标 removedb 删除区块链和状态数据库 version 打印当前版本信息 wallet 管理以太坊预售钱包 help, h 显示命令行帮助信息 ETHEREUM OPTIONS: --config value TOML 配置文件 --datadir &amp;#34;/root/." />
+
+  
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@twitter_username" />
+    <meta name="twitter:title" content="Geth 命令行简析" />
+    <meta name="twitter:description" content="英文好的童鞋可以直接看运行程序的帮助文档
+geth &amp;ndash;help
+当然也可以访问github上的wiki文档查看，地址为：
+https://github.com/ethereum/go-ethereum/wiki
+本文geth版本为
+$ geth version Geth Version: 1.8.10-stable Git Commit: eae63c511ceafab14b92e274c1b18bf1700e2d3d Architecture: amd64 Protocol Versions: [63 62] Network Id: 1 Go Version: go1.10.1 Operating System: linux GOPATH=/usr/local/GOPATH GOROOT=/usr/local/go 我们看一下命令行参数帮助文档
+$ geth -h NAME: geth - the go-ethereum command line interface Copyright 2013-2018 The go-ethereum Authors USAGE: geth [options] command [command options] [arguments...] VERSION: 1.8.10-stable-eae63c51 COMMANDS: account 管理账户 attach 启动交互式Javascript环境（连接已经运行的节点可以是geth或者parity） bug 打开一个窗口上报bug到Issues console 启动交互式Javascript环境 copydb 从目标文件夹创建本地链 dump 将特定块从存储中转储 dumpconfig 显示配置信息 export 导出区块链数据到文件 export-preimages 导出数据库预图像到 RLP 流 import 从指定区块链文件导入 import-preimages 从指定RLP流导入到数据库预图像 init 引导和初始化一个创世区块，一般在搭建私链的时候用到 js 运行指定Javascript文件 license 显示许可信息 makecache 生成ethash验证缓存(用于测试) makedag 生成ethash 挖矿DAG(用于测试) monitor 监控和可视化节点指标 removedb 删除区块链和状态数据库 version 打印当前版本信息 wallet 管理以太坊预售钱包 help, h 显示命令行帮助信息 ETHEREUM OPTIONS: --config value TOML 配置文件 --datadir &amp;#34;/root/." />
+    <meta name="twitter:image" content="http://www.inspires.cn/img/avatar.jpg" />
+  
+
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Geth 命令行简析" />
+  <meta property="og:description" content="英文好的童鞋可以直接看运行程序的帮助文档
+geth &amp;ndash;help
+当然也可以访问github上的wiki文档查看，地址为：
+https://github.com/ethereum/go-ethereum/wiki
+本文geth版本为
+$ geth version Geth Version: 1.8.10-stable Git Commit: eae63c511ceafab14b92e274c1b18bf1700e2d3d Architecture: amd64 Protocol Versions: [63 62] Network Id: 1 Go Version: go1.10.1 Operating System: linux GOPATH=/usr/local/GOPATH GOROOT=/usr/local/go 我们看一下命令行参数帮助文档
+$ geth -h NAME: geth - the go-ethereum command line interface Copyright 2013-2018 The go-ethereum Authors USAGE: geth [options] command [command options] [arguments...] VERSION: 1.8.10-stable-eae63c51 COMMANDS: account 管理账户 attach 启动交互式Javascript环境（连接已经运行的节点可以是geth或者parity） bug 打开一个窗口上报bug到Issues console 启动交互式Javascript环境 copydb 从目标文件夹创建本地链 dump 将特定块从存储中转储 dumpconfig 显示配置信息 export 导出区块链数据到文件 export-preimages 导出数据库预图像到 RLP 流 import 从指定区块链文件导入 import-preimages 从指定RLP流导入到数据库预图像 init 引导和初始化一个创世区块，一般在搭建私链的时候用到 js 运行指定Javascript文件 license 显示许可信息 makecache 生成ethash验证缓存(用于测试) makedag 生成ethash 挖矿DAG(用于测试) monitor 监控和可视化节点指标 removedb 删除区块链和状态数据库 version 打印当前版本信息 wallet 管理以太坊预售钱包 help, h 显示命令行帮助信息 ETHEREUM OPTIONS: --config value TOML 配置文件 --datadir &amp;#34;/root/." />
+  <meta property="og:url" content="http://www.inspires.cn/post/geth-command-help-cn.html" />
+  <meta property="og:image" content="http://www.inspires.cn/img/avatar.jpg" />
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0" />
+
+
+<link rel="canonical" href="http://www.inspires.cn/post/geth-command-help-cn.html" />
+<link rel="alternative" href="http://www.inspires.cn/index.xml" title="Blog For Blockchain" type="application/atom+xml" />
+
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+
+
+<meta name="robots" content="index,follow" />
+<meta name="referrer" content="origin-when-cross-origin" />
+
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Blog For Blockchain" />
+<meta name="msapplication-tooltip" content="Blog For Blockchain" />
+<meta name='msapplication-navbutton-color' content="#5fbf5e" />
+<meta name="msapplication-TileColor" content="#5fbf5e" />
+<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
+<link rel="icon" href="http://www.inspires.cn/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="http://www.inspires.cn/img/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://www.inspires.cn/img/favicon-32x32.png" />
+<link rel="icon" sizes="192x192" href="http://www.inspires.cn/img/touch-icon-android.png" />
+<link rel="apple-touch-icon" href="http://www.inspires.cn/img/touch-icon-apple.png" />
+<link rel="mask-icon" href="http://www.inspires.cn/img/safari-pinned-tab.svg" color="#5fbf5e" />
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
+<link rel="stylesheet" href="http://www.inspires.cn/css/bundle.css" />
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
+  <![endif]-->
+
+<!--[if lte IE 11]>
+    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+
+<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="http://www.inspires.cn/img/avatar.jpg" alt="Avatar">
+  
+  <h2 class="title">Blog For Blockchain</h2>
+  
+  <p class="subtitle">~ Follow Your Heart ~</p>
+  <button class="menu-toggle" type="button">
+    <span class="icon icon-menu"></span>
+  </button>
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+            
+            
+            
+              is-active
+            ">
+            <a href="http://www.inspires.cn/post">Home</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="https://github.com/bingge1">Works</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="http://www.inspires.cn/tags/">Tags</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="http://www.inspires.cn/links.html">Links</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="http://www.inspires.cn/about.html">About</a>
+          </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list">
+
+      
+      <li class="social-item">
+        <a href="mailto:jonchiang@sina.com" title="Email"><span class="icon icon-email"></span></a>
+      </li>
+
+      
+      <li class="social-item">
+        <a href="//github.com/bingge1" title="GitHub"><span class="icon icon-github"></span></a>
+      </li>
+
+      <li class="social-item">
+        <a href="//twitter.com/twitter_username" title="Twitter"><span class="icon icon-twitter"></span></a>
+      </li>
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="//weibo.com/sandyJan" title="Weibo"><span class="icon icon-weibo"></span></a>
+      </li>
+
+      <li class="social-item">
+        <a href="http://www.inspires.cn/img/qrcode.jpg" title="Wechat"><span class="icon icon-wechat"></span></a>
+      </li>
+
+      <li class="social-item">
+        <a href="//www.linkedin.com/in/linkedin_username" title="Linkedin"><span class="icon icon-linkedin"></span></a>
+      </li>
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="http://www.inspires.cn/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Geth 命令行简析</h1>
+      <p class="post-meta">@Jon Chiang · Jun 7, 2018 · 3 min read</p>
+    </header>
+    <article class="post-content"><p>英文好的童鞋可以直接看运行程序的帮助文档</p>
+
+<p>geth &ndash;help</p>
+
+<p>当然也可以访问github上的wiki文档查看，地址为：</p>
+
+<p><a href="https://github.com/ethereum/go-ethereum/wiki">https://github.com/ethereum/go-ethereum/wiki</a></p>
+
+<p>本文geth版本为</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-actionscript" data-lang="actionscript"><span style="color:#a6e22e">$</span> <span style="color:#a6e22e">geth</span> <span style="color:#a6e22e">version</span>
+<span style="color:#a6e22e">Geth</span>
+<span style="color:#a6e22e">Version</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1.8</span>.<span style="color:#ae81ff">10</span><span style="color:#f92672">-</span><span style="color:#a6e22e">stable</span>
+<span style="color:#a6e22e">Git</span> <span style="color:#a6e22e">Commit</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">eae63c511ceafab14b92e274c1b18bf1700e2d3d</span>
+<span style="color:#a6e22e">Architecture</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">amd64</span>
+<span style="color:#a6e22e">Protocol</span> <span style="color:#a6e22e">Versions</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">63</span> <span style="color:#ae81ff">62</span>]
+<span style="color:#a6e22e">Network</span> <span style="color:#a6e22e">Id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">Go</span> <span style="color:#a6e22e">Version</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">go1</span>.<span style="color:#ae81ff">10.1</span>
+<span style="color:#a6e22e">Operating</span> System<span style="color:#f92672">:</span> <span style="color:#a6e22e">linux</span>
+<span style="color:#a6e22e">GOPATH</span><span style="color:#f92672">=/</span><span style="color:#a6e22e">usr</span><span style="color:#e6db74">/local/</span><span style="color:#a6e22e">GOPATH</span>
+<span style="color:#a6e22e">GOROOT</span><span style="color:#f92672">=/</span><span style="color:#a6e22e">usr</span><span style="color:#e6db74">/local/g</span><span style="color:#a6e22e">o</span></code></pre></div>
+<p>我们看一下命令行参数帮助文档</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">$</span> <span style="color:#a6e22e">geth</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">h</span>
+<span style="color:#a6e22e">NAME</span><span style="color:#f92672">:</span>
+   <span style="color:#a6e22e">geth</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">go</span><span style="color:#f92672">-</span><span style="color:#a6e22e">ethereum</span> <span style="color:#a6e22e">command</span> <span style="color:#a6e22e">line</span> <span style="color:#66d9ef">interface</span>
+
+   <span style="color:#a6e22e">Copyright</span> <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2018</span> <span style="color:#a6e22e">The</span> <span style="color:#a6e22e">go</span><span style="color:#f92672">-</span><span style="color:#a6e22e">ethereum</span> <span style="color:#a6e22e">Authors</span>
+
+<span style="color:#a6e22e">USAGE</span><span style="color:#f92672">:</span>
+   <span style="color:#a6e22e">geth</span> [<span style="color:#a6e22e">options</span>] <span style="color:#a6e22e">command</span> [<span style="color:#a6e22e">command</span> <span style="color:#a6e22e">options</span>] [<span style="color:#a6e22e">arguments</span>...]
+   
+<span style="color:#a6e22e">VERSION</span><span style="color:#f92672">:</span>
+   <span style="color:#ae81ff">1.8.10</span><span style="color:#f92672">-</span><span style="color:#a6e22e">stable</span><span style="color:#f92672">-</span><span style="color:#a6e22e">eae63c51</span>
+   
+<span style="color:#a6e22e">COMMANDS</span><span style="color:#f92672">:</span>
+   <span style="color:#a6e22e">account</span>           <span style="color:#a6e22e">管理账户</span>
+   <span style="color:#a6e22e">attach</span>            <span style="color:#a6e22e">启动交互式Javascript环境</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">连接已经运行的节点可以是geth或者parity</span><span style="color:#960050;background-color:#1e0010">）</span>
+   <span style="color:#a6e22e">bug</span>               <span style="color:#a6e22e">打开一个窗口上报bug到Issues</span>
+   <span style="color:#a6e22e">console</span>           <span style="color:#a6e22e">启动交互式Javascript环境</span>
+   <span style="color:#a6e22e">copydb</span>            <span style="color:#a6e22e">从目标文件夹创建本地链</span>
+   <span style="color:#a6e22e">dump</span>              <span style="color:#a6e22e">将特定块从存储中转储</span>
+   <span style="color:#a6e22e">dumpconfig</span>        <span style="color:#a6e22e">显示配置信息</span>
+   <span style="color:#66d9ef">export</span>            <span style="color:#a6e22e">导出区块链数据到文件</span>
+   <span style="color:#66d9ef">export</span><span style="color:#f92672">-</span><span style="color:#a6e22e">preimages</span>  <span style="color:#a6e22e">导出数据库预图像到</span> <span style="color:#a6e22e">RLP</span> <span style="color:#a6e22e">流</span>
+   <span style="color:#66d9ef">import</span>            <span style="color:#a6e22e">从指定区块链文件导入</span>
+   <span style="color:#66d9ef">import</span><span style="color:#f92672">-</span><span style="color:#a6e22e">preimages</span>  <span style="color:#a6e22e">从指定RLP流导入到数据库预图像</span>
+   <span style="color:#a6e22e">init</span>              <span style="color:#a6e22e">引导和初始化一个创世区块</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">一般在搭建私链的时候用到</span>
+   <span style="color:#a6e22e">js</span>                <span style="color:#a6e22e">运行指定Javascript文件</span>
+   <span style="color:#a6e22e">license</span>           <span style="color:#a6e22e">显示许可信息</span>
+   <span style="color:#a6e22e">makecache</span>         <span style="color:#a6e22e">生成ethash验证缓存</span>(<span style="color:#a6e22e">用于测试</span>)
+   <span style="color:#a6e22e">makedag</span>           <span style="color:#a6e22e">生成ethash</span> <span style="color:#a6e22e">挖矿DAG</span>(<span style="color:#a6e22e">用于测试</span>)
+   <span style="color:#a6e22e">monitor</span>           <span style="color:#a6e22e">监控和可视化节点指标</span>
+   <span style="color:#a6e22e">removedb</span>          <span style="color:#a6e22e">删除区块链和状态数据库</span>
+   <span style="color:#a6e22e">version</span>           <span style="color:#a6e22e">打印当前版本信息</span>
+   <span style="color:#a6e22e">wallet</span>            <span style="color:#a6e22e">管理以太坊预售钱包</span>
+   <span style="color:#a6e22e">help</span>, <span style="color:#a6e22e">h</span>           <span style="color:#a6e22e">显示命令行帮助信息</span>
+   
+<span style="color:#a6e22e">ETHEREUM</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">config</span> <span style="color:#a6e22e">value</span>               <span style="color:#a6e22e">TOML</span> <span style="color:#a6e22e">配置文件</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">datadir</span> <span style="color:#e6db74">&#34;/root/.ethereum&#34;</span>  <span style="color:#a6e22e">数据库和keystore密钥数据目录</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">默认</span><span style="color:#e6db74">&#34;(/root/.ethereum)&#34;</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">keystore</span>                   <span style="color:#a6e22e">keystore存放目录</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">默认在datadir里面</span><span style="color:#960050;background-color:#1e0010">）</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">nousb</span>                      <span style="color:#a6e22e">禁用监控和管理USB硬件钱包</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">networkid</span> <span style="color:#a6e22e">value</span>            <span style="color:#a6e22e">网络标识符</span>(<span style="color:#a6e22e">整型</span>, <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#a6e22e">Frontier</span>, <span style="color:#ae81ff">2</span><span style="color:#f92672">=</span><span style="color:#a6e22e">Morden</span> (<span style="color:#a6e22e">弃用</span>), <span style="color:#ae81ff">3</span><span style="color:#f92672">=</span><span style="color:#a6e22e">Ropsten</span>, <span style="color:#ae81ff">4</span><span style="color:#f92672">=</span><span style="color:#a6e22e">Rinkeby</span>) (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">testnet</span>                    <span style="color:#a6e22e">Ropsten网络</span><span style="color:#f92672">:</span><span style="color:#a6e22e">预先配置的POW</span>(<span style="color:#a6e22e">proof</span><span style="color:#f92672">-</span><span style="color:#66d9ef">of</span><span style="color:#f92672">-</span><span style="color:#a6e22e">work</span>)<span style="color:#a6e22e">测试网络</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">rinkeby</span>                    <span style="color:#a6e22e">Rinkeby网络</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">预先配置的POA</span>(<span style="color:#a6e22e">proof</span><span style="color:#f92672">-</span><span style="color:#66d9ef">of</span><span style="color:#f92672">-</span><span style="color:#a6e22e">authority</span>)<span style="color:#a6e22e">测试网络</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">syncmode</span> <span style="color:#e6db74">&#34;fast&#34;</span>            <span style="color:#a6e22e">同步模式</span> (<span style="color:#e6db74">&#34;fast&#34;</span>, <span style="color:#e6db74">&#34;full&#34;</span>, <span style="color:#a6e22e">or</span> <span style="color:#e6db74">&#34;light&#34;</span>) <span style="color:#a6e22e">默认为</span> <span style="color:#e6db74">&#34;fast&#34;</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">gcmode</span> <span style="color:#a6e22e">value</span>                
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ethstats</span> <span style="color:#a6e22e">value</span>             <span style="color:#a6e22e">上报ethstats</span> <span style="color:#a6e22e">service</span>  <span style="color:#a6e22e">URL</span> (<span style="color:#a6e22e">nodename</span><span style="color:#f92672">:</span><span style="color:#a6e22e">secret</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">host</span><span style="color:#f92672">:</span><span style="color:#a6e22e">port</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">identity</span> <span style="color:#a6e22e">value</span>             <span style="color:#a6e22e">自定义节点名</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">lightserv</span> <span style="color:#a6e22e">value</span>            <span style="color:#a6e22e">允许LES请求时间最大百分比</span>(<span style="color:#ae81ff">0</span> <span style="color:#960050;background-color:#1e0010">–</span> <span style="color:#ae81ff">90</span>)(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0</span>) 
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">lightpeers</span> <span style="color:#a6e22e">value</span>           <span style="color:#a6e22e">最大LES</span> <span style="color:#a6e22e">client</span> <span style="color:#a6e22e">peers数量</span>(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">100</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">lightkdf</span>                   <span style="color:#a6e22e">在KDF强度消费时降低key</span><span style="color:#f92672">-</span><span style="color:#a6e22e">derivation</span> <span style="color:#a6e22e">RAM</span><span style="color:#f92672">&amp;</span><span style="color:#a6e22e">CPU使用</span>
+
+  
+<span style="color:#a6e22e">DEVELOPER</span> <span style="color:#a6e22e">CHAIN</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">开发者</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">模式</span><span style="color:#960050;background-color:#1e0010">）</span><span style="color:#a6e22e">选项</span><span style="color:#f92672">:</span>)
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">dev</span>               <span style="color:#a6e22e">使用POA共识网络</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">默认预分配一个开发者账户并且会自动开启挖矿</span><span style="color:#960050;background-color:#1e0010">。</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">dev</span>.<span style="color:#a6e22e">period</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">开发者模式下挖矿周期</span> (<span style="color:#ae81ff">0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">仅在交易时</span>) (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>)
+
+  
+<span style="color:#a6e22e">ETHASH</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">THASH</span> <span style="color:#a6e22e">选项</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ethash</span>.<span style="color:#a6e22e">cachedir</span>                <span style="color:#a6e22e">ethash验证缓存目录</span>(<span style="color:#a6e22e">默认</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">datadir目录内</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ethash</span>.<span style="color:#a6e22e">cachesinmem</span> <span style="color:#a6e22e">value</span>       <span style="color:#a6e22e">在内存保存的最近的ethash缓存个数</span>  (<span style="color:#a6e22e">每个缓存16MB</span> ) (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ethash</span>.<span style="color:#a6e22e">cachesondisk</span> <span style="color:#a6e22e">value</span>      <span style="color:#a6e22e">在磁盘保存的最近的ethash缓存个数</span> (<span style="color:#a6e22e">每个缓存16MB</span>) (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ethash</span>.<span style="color:#a6e22e">dagdir</span> <span style="color:#e6db74">&#34;/root/.ethash&#34;</span>  <span style="color:#a6e22e">存ethash</span> <span style="color:#a6e22e">DAGs目录</span> (<span style="color:#a6e22e">默认</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">用户hom目录</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ethash</span>.<span style="color:#a6e22e">dagsinmem</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">在内存保存的最近的ethash</span> <span style="color:#a6e22e">DAGs</span> <span style="color:#a6e22e">个数</span> (<span style="color:#a6e22e">每个1GB以上</span>) (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ethash</span>.<span style="color:#a6e22e">dagsondisk</span> <span style="color:#a6e22e">value</span>        <span style="color:#a6e22e">在磁盘保存的最近的ethash</span> <span style="color:#a6e22e">DAGs</span> <span style="color:#a6e22e">个数</span> (<span style="color:#a6e22e">每个1GB以上</span>) (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>)
+  
+<span style="color:#a6e22e">TRANSACTION</span> <span style="color:#a6e22e">POOL</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">事务</span><span style="color:#f92672">/</span><span style="color:#a6e22e">交易</span> <span style="color:#a6e22e">池选项</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">nolocals</span>            <span style="color:#a6e22e">为本地提交交易禁用价格豁免</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">journal</span> <span style="color:#a6e22e">value</span>       <span style="color:#a6e22e">本地交易的磁盘日志</span><span style="color:#960050;background-color:#1e0010">：</span><span style="color:#a6e22e">用于节点重启</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;transactions.rlp&#34;</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">rejournal</span> <span style="color:#a6e22e">value</span>     <span style="color:#a6e22e">重新生成本地交易日志的时间间隔</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span><span style="color:#a6e22e">小时</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">pricelimit</span> <span style="color:#a6e22e">value</span>    <span style="color:#a6e22e">加入交易池的最小的gas价格限制</span>(<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">pricebump</span> <span style="color:#a6e22e">value</span>     <span style="color:#a6e22e">价格波动百分比</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">相对之前已有交易</span><span style="color:#960050;background-color:#1e0010">）</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">accountslots</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">每个帐户保证可执行的最少交易槽数量</span>  (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">16</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">globalslots</span> <span style="color:#a6e22e">value</span>   <span style="color:#a6e22e">所有帐户可执行的最大交易槽数量</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">4096</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">accountqueue</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">每个帐户允许的最多非可执行交易槽数量</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">64</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">globalqueue</span> <span style="color:#a6e22e">value</span>   <span style="color:#a6e22e">所有帐户非可执行交易最大槽数量</span>  (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1024</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">txpool</span>.<span style="color:#a6e22e">lifetime</span> <span style="color:#a6e22e">value</span>      <span style="color:#a6e22e">非可执行交易最大入队时间</span>(<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span><span style="color:#a6e22e">小时</span>)
+  
+
+
+<span style="color:#a6e22e">PERFORMANCE</span> <span style="color:#a6e22e">TUNING</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">性能调优的选项</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">）</span>
+
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">cache</span> <span style="color:#a6e22e">value</span>            <span style="color:#a6e22e">分配给内部缓存的内存MB数量</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">缓存值</span>(<span style="color:#a6e22e">最低16</span> <span style="color:#a6e22e">mb</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">数据库强制要求</span>)(<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span><span style="color:#ae81ff">128</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">cache</span>.<span style="color:#a6e22e">database</span> <span style="color:#a6e22e">value</span>   <span style="color:#a6e22e">用于数据库IO的允许百分比</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">默认值</span><span style="color:#960050;background-color:#1e0010">：</span><span style="color:#ae81ff">75</span><span style="color:#960050;background-color:#1e0010">）</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">cache</span>.<span style="color:#a6e22e">gc</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">用于垃圾回收占百分比</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">默认值</span><span style="color:#960050;background-color:#1e0010">：</span><span style="color:#ae81ff">25</span><span style="color:#960050;background-color:#1e0010">）</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">trie</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cache</span><span style="color:#f92672">-</span><span style="color:#a6e22e">gens</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">保持在内存中产生的trie</span> <span style="color:#a6e22e">node数量</span>(<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span><span style="color:#ae81ff">120</span>)
+  
+<span style="color:#a6e22e">ACCOUNT</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">unlock</span> <span style="color:#a6e22e">value</span>    <span style="color:#a6e22e">解锁一个账号</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">password</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">输入密码解锁</span>
+  
+<span style="color:#a6e22e">API</span> <span style="color:#a6e22e">AND</span> <span style="color:#a6e22e">CONSOLE</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">API和控制台选项</span><span style="color:#f92672">:</span>)
+
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">rpc</span>                  <span style="color:#a6e22e">开启Http</span> <span style="color:#a6e22e">rpc</span> <span style="color:#a6e22e">接口访问</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">rpcaddr</span> <span style="color:#a6e22e">value</span>        <span style="color:#a6e22e">HTTP</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC</span> <span style="color:#a6e22e">服务监听地址</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;localhost&#34;</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">rpcport</span> <span style="color:#a6e22e">value</span>        <span style="color:#a6e22e">HTTP</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC</span> <span style="color:#a6e22e">服务监听端口</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8545</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">rpcapi</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">基于HTTP</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC接口提供的API</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ws</span>                   <span style="color:#a6e22e">开启</span> <span style="color:#a6e22e">WS</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC</span> <span style="color:#a6e22e">服务</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">wsaddr</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">WS</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC</span> <span style="color:#a6e22e">服务监听地址</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;localhost&#34;</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">wsport</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">WS</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC</span> <span style="color:#a6e22e">服务监听端口</span> (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8546</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">wsapi</span> <span style="color:#a6e22e">value</span>          <span style="color:#a6e22e">基于WS</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC的接口提供的API</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">wsorigins</span> <span style="color:#a6e22e">value</span>      <span style="color:#a6e22e">WebSocket允许的源</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ipcdisable</span>           <span style="color:#a6e22e">禁用IPC</span><span style="color:#f92672">-</span><span style="color:#a6e22e">RPC服务器</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">ipcpath</span>              <span style="color:#a6e22e">包含在datadir里的IPC</span> <span style="color:#a6e22e">socket</span><span style="color:#f92672">/</span><span style="color:#a6e22e">pipe文件名</span>(<span style="color:#a6e22e">转义过的显式路径</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">rpccorsdomain</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">允许跨域请求的域名列表</span>(<span style="color:#a6e22e">逗号分隔</span>)(<span style="color:#a6e22e">浏览器强制</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">rpcvhosts</span> <span style="color:#a6e22e">value</span>      <span style="color:#a6e22e">允许的rpchost</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">以逗号分隔</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">默认</span><span style="color:#960050;background-color:#1e0010">：</span><span style="color:#e6db74">&#34;localhost&#34;</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">jspath</span> <span style="color:#a6e22e">loadScript</span>    <span style="color:#a6e22e">Javascript加载脚本的根路径</span>(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">“</span>.<span style="color:#960050;background-color:#1e0010">”</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">exec</span> <span style="color:#a6e22e">value</span>           <span style="color:#a6e22e">允许Javascript脚本</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">preload</span> <span style="color:#a6e22e">value</span>        <span style="color:#a6e22e">预加载到控制台的Javascript文件列表</span>(<span style="color:#a6e22e">逗号分隔</span>)
+  
+<span style="color:#a6e22e">NETWORKING</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">网络选项</span><span style="color:#f92672">:</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">bootnodes</span> <span style="color:#a6e22e">value</span>     <span style="color:#a6e22e">用于P2P发现引导的enode</span> <span style="color:#a6e22e">urls</span>(<span style="color:#a6e22e">逗号分隔</span>)(<span style="color:#a6e22e">对于light</span> <span style="color:#a6e22e">servers用v4</span><span style="color:#f92672">+</span><span style="color:#a6e22e">v5代替</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">bootnodesv4</span> <span style="color:#a6e22e">value</span>   <span style="color:#a6e22e">用于P2P</span> <span style="color:#a6e22e">v4发现引导的enode</span> <span style="color:#a6e22e">urls</span>(<span style="color:#a6e22e">逗号分隔</span>) (<span style="color:#a6e22e">light</span> <span style="color:#a6e22e">server</span>, <span style="color:#a6e22e">全节点</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">bootnodesv5</span> <span style="color:#a6e22e">value</span>   <span style="color:#a6e22e">用于P2P</span> <span style="color:#a6e22e">v5发现引导的enode</span> <span style="color:#a6e22e">urls</span>(<span style="color:#a6e22e">逗号分隔</span>) (<span style="color:#a6e22e">light</span> <span style="color:#a6e22e">server</span>, <span style="color:#a6e22e">轻节点</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">port</span> <span style="color:#a6e22e">value</span>          <span style="color:#a6e22e">网卡监听端口</span>(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">30303</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">maxpeers</span> <span style="color:#a6e22e">value</span>      <span style="color:#a6e22e">最大的网络节点数量</span>(<span style="color:#a6e22e">如果设置为0</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">网络将被禁用</span>)(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">25</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">maxpendpeers</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">最大尝试连接的数量</span>(<span style="color:#a6e22e">如果设置为0</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">则将使用默认值</span>)(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">nat</span> <span style="color:#a6e22e">value</span>           <span style="color:#a6e22e">NAT端口映射机制</span> (<span style="color:#a6e22e">any</span><span style="color:#f92672">|</span><span style="color:#a6e22e">none</span><span style="color:#f92672">|</span><span style="color:#a6e22e">upnp</span><span style="color:#f92672">|</span><span style="color:#a6e22e">pmp</span><span style="color:#f92672">|</span><span style="color:#a6e22e">extip</span><span style="color:#f92672">:&lt;</span><span style="color:#a6e22e">IP</span><span style="color:#f92672">&gt;</span>) (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">“</span><span style="color:#a6e22e">any</span><span style="color:#960050;background-color:#1e0010">”</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">nodiscover</span>          <span style="color:#a6e22e">禁用节点发现机制</span>(<span style="color:#a6e22e">手动添加节点</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">v5disc</span>              <span style="color:#a6e22e">启用实验性的RLPx</span> <span style="color:#a6e22e">V5</span>(<span style="color:#a6e22e">Topic发现</span>)<span style="color:#a6e22e">机制</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">netrestrict</span> <span style="color:#a6e22e">value</span>   <span style="color:#a6e22e">将网络通信限制到给定的IP网络</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">CIDR掩码</span><span style="color:#960050;background-color:#1e0010">）</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">nodekey</span> <span style="color:#a6e22e">value</span>       <span style="color:#a6e22e">P2P节点密钥文件</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">nodekeyhex</span> <span style="color:#a6e22e">value</span>    <span style="color:#a6e22e">十六进制的P2P节点密钥</span>(<span style="color:#a6e22e">用于测试</span>)
+  
+<span style="color:#a6e22e">MINER</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">矿工选项</span><span style="color:#f92672">:</span>)
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">mine</span>                    <span style="color:#a6e22e">开启挖矿</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">minerthreads</span> <span style="color:#a6e22e">value</span>      <span style="color:#a6e22e">挖矿使用的CPU线程数量</span>(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">etherbase</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">挖矿奖励地址</span>(<span style="color:#a6e22e">默认</span><span style="color:#f92672">=</span><span style="color:#a6e22e">第一个创建的帐户</span>)(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">“</span><span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">”</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">targetgaslimit</span> <span style="color:#a6e22e">value</span>    <span style="color:#a6e22e">目标gas限制</span><span style="color:#960050;background-color:#1e0010">：</span><span style="color:#a6e22e">设置最低gas限制</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#a6e22e">低于这个不会被挖</span><span style="color:#960050;background-color:#1e0010">？）</span> (<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">“</span><span style="color:#ae81ff">4712388</span><span style="color:#960050;background-color:#1e0010">”</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">gasprice</span> <span style="color:#e6db74">&#34;18000000000&#34;</span>  <span style="color:#a6e22e">挖矿接受交易的最低gas价格</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">extradata</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">矿工设置的额外块数据</span>(<span style="color:#a6e22e">默认</span><span style="color:#f92672">=</span><span style="color:#a6e22e">client</span> <span style="color:#a6e22e">version</span>)
+  
+<span style="color:#a6e22e">GAS</span> <span style="color:#a6e22e">PRICE</span> <span style="color:#a6e22e">ORACLE</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">GAS价格选项</span><span style="color:#f92672">:</span>)
+
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">gpoblocks</span> <span style="color:#a6e22e">value</span>      <span style="color:#a6e22e">用于检查gas价格的最近块的个数</span>  (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">gpopercentile</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">建议gas价参考最近交易的gas价的百分位数</span><span style="color:#960050;background-color:#1e0010">，</span>(<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span>)
+  
+<span style="color:#a6e22e">VIRTUAL</span> <span style="color:#a6e22e">MACHINE</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">虚拟机的选项</span><span style="color:#f92672">:</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">vmdebug</span>  <span style="color:#a6e22e">记录VM及合约调试信息</span>
+
+  
+<span style="color:#a6e22e">LOGGING</span> <span style="color:#a6e22e">AND</span> <span style="color:#a6e22e">DEBUGGING</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">日志和调试选项</span><span style="color:#f92672">:</span>)
+
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">metrics</span>                 <span style="color:#a6e22e">启用metrics收集和报告</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">fakepow</span>                 <span style="color:#a6e22e">禁用proof</span><span style="color:#f92672">-</span><span style="color:#66d9ef">of</span><span style="color:#f92672">-</span><span style="color:#a6e22e">work验证</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">nocompaction</span>            <span style="color:#a6e22e">禁用导入DB后压缩</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">verbosity</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">日志详细度</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0</span><span style="color:#f92672">=</span><span style="color:#a6e22e">silent</span>, <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#a6e22e">error</span>, <span style="color:#ae81ff">2</span><span style="color:#f92672">=</span><span style="color:#a6e22e">warn</span>, <span style="color:#ae81ff">3</span><span style="color:#f92672">=</span><span style="color:#a6e22e">info</span>, <span style="color:#ae81ff">4</span><span style="color:#f92672">=</span><span style="color:#a6e22e">debug</span>, <span style="color:#ae81ff">5</span><span style="color:#f92672">=</span><span style="color:#a6e22e">detail</span> (<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">vmodule</span> <span style="color:#a6e22e">value</span>           <span style="color:#a6e22e">每个模块详细度</span><span style="color:#f92672">:</span><span style="color:#a6e22e">以</span> <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">pattern</span><span style="color:#f92672">&gt;=&lt;</span><span style="color:#a6e22e">level</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">的逗号分隔列表</span> (<span style="color:#a6e22e">比如</span> <span style="color:#a6e22e">eth</span><span style="color:#f92672">/*=</span><span style="color:#ae81ff">6</span>,<span style="color:#a6e22e">p2p</span><span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">backtrace</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">请求特定日志记录堆栈跟踪</span> (<span style="color:#a6e22e">比如</span> <span style="color:#960050;background-color:#1e0010">“</span><span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">go</span><span style="color:#f92672">:</span><span style="color:#ae81ff">271</span><span style="color:#960050;background-color:#1e0010">”</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">debug</span>                   <span style="color:#a6e22e">突出显示调用位置日志</span>(<span style="color:#a6e22e">文件名及行号</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">pprof</span>                   <span style="color:#a6e22e">启用pprof</span> <span style="color:#a6e22e">HTTP服务器</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">pprofaddr</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">pprof</span> <span style="color:#a6e22e">HTTP服务器监听接口</span>(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">127.0.0.1</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">pprofport</span> <span style="color:#a6e22e">value</span>         <span style="color:#a6e22e">pprof</span> <span style="color:#a6e22e">HTTP服务器监听端口</span>(<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6060</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">memprofilerate</span> <span style="color:#a6e22e">value</span>    <span style="color:#a6e22e">按指定频率打开memory</span> <span style="color:#a6e22e">profiling</span>    (<span style="color:#a6e22e">默认</span><span style="color:#f92672">:</span><span style="color:#ae81ff">524288</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">blockprofilerate</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">按指定频率打开block</span> <span style="color:#a6e22e">profiling</span>    (<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">cpuprofile</span> <span style="color:#a6e22e">value</span>        <span style="color:#a6e22e">将CPU</span> <span style="color:#a6e22e">profile写入指定文件</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">trace</span> <span style="color:#a6e22e">value</span>             <span style="color:#a6e22e">将execution</span> <span style="color:#a6e22e">trace写入指定文件</span>
+  
+<span style="color:#a6e22e">WHISPER</span> (<span style="color:#a6e22e">EXPERIMENTAL</span>) <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">WHISPER实验选项</span><span style="color:#f92672">:</span>)
+
+
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">shh</span>                       <span style="color:#a6e22e">启用Whisper</span>
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">shh</span>.<span style="color:#a6e22e">maxmessagesize</span> <span style="color:#a6e22e">value</span>  <span style="color:#a6e22e">可接受的最大的消息大小</span> (<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1048576</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">shh</span>.<span style="color:#a6e22e">pow</span> <span style="color:#a6e22e">value</span>             <span style="color:#a6e22e">可接受的最小的POW</span> (<span style="color:#a6e22e">默认值</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.2</span>)
+  
+<span style="color:#a6e22e">DEPRECATED</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">弃用选项</span><span style="color:#960050;background-color:#1e0010">：</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">fast</span>   <span style="color:#a6e22e">开启快速同步</span>(<span style="color:#a6e22e">改为</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">syncmode</span> <span style="color:#e6db74">&#34;fast&#34;</span>   )
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">light</span>  <span style="color:#a6e22e">启用轻客户端模式</span>
+  
+<span style="color:#a6e22e">MISC</span> <span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">其他选项</span>)
+  <span style="color:#f92672">--</span><span style="color:#a6e22e">help</span>, <span style="color:#f92672">-</span><span style="color:#a6e22e">h</span>  <span style="color:#a6e22e">显示帮助文档</span>
+  
+
+<span style="color:#a6e22e">COPYRIGHT</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">版权信息</span>)
+   <span style="color:#a6e22e">Copyright</span> <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2018</span> <span style="color:#a6e22e">The</span> <span style="color:#a6e22e">go</span><span style="color:#f92672">-</span><span style="color:#a6e22e">ethereum</span> <span style="color:#a6e22e">Authors</span>
+</code></pre></div>
+<p>有些参数翻译可能有不准确的地方，请大家指正。</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="http://www.inspires.cn/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A"><span class="tag">以太坊</span></a></li>
+        
+          <li><a href="http://www.inspires.cn/tags/ethereum"><span class="tag">Ethereum</span></a></li>
+        
+      </ul>
+      
+
+
+      <div id="git-comments"></div>
+      <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+      <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+      <script>
+        var gitment = new Gitment({
+          id: "Geth 命令行简析",  
+          owner: 'bingge1',
+          repo: 'gitment',
+          oauth: {
+            client_id: '61b1f55f3bed874dd9c4',
+            client_secret: '7f30d5d3cd4dc9d4569f64f566613d1ab0cbc5c6',
+          }
+        })
+        gitment.render('git-comments')
+      </script>
+
+      <p class="post-copyright">
+        © This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you wish to quote or reproduce.This post was published <strong>511</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+
+  <footer class="site-footer">
+  <p>© 2017-2019 Blog For Blockchain</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
+  
+</footer>
+
+
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+<script src="http://www.inspires.cn/js/bundle.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-XXXXXXXX-X', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+  </body>
+ 
+</html>

@@ -5,7 +5,7 @@ theme = "hugo-nuo"
 enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true
-
+uglyurls = true
 
 # Google Analytics UA number
 googleAnalytics = "UA-XXXXXXXX-X"

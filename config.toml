@@ -32,20 +32,6 @@ copyright = "© This post is licensed under a Creative Commons Attribution-NonCo
   identifier = "tags"
   url = "/tags/"
 
-[[menu.main]]
-  name = "Links"
-  weight = 40
-  identifier = "links"
-  url = "/links.html"
-
-
-[[menu.main]]
-  name = "About"
-  weight = 50
-  identifier = "about"
-  url = "/about.html"
-
-
 # Add your own params here
 [params]
   author = "Jon Chiang"

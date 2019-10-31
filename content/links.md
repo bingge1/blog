@@ -6,4 +6,4 @@ menu: "main"
 weight: 40
 ---
 
-Ritchie and his friends.
+友情链接

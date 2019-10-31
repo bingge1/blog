@@ -18,7 +18,7 @@ copyright = "© This post is licensed under a Creative Commons Attribution-NonCo
   name = "Home"
   weight = 10
   identifier = "home"
-  url = "/post"
+  url = "/post.html"
 
 [[menu.main]]
   name = "Works"
@@ -30,7 +30,7 @@ copyright = "© This post is licensed under a Creative Commons Attribution-NonCo
   name = "Tags"
   weight = 30
   identifier = "tags"
-  url = "/tags/"
+  url = "/tags.html"
 
 # Add your own params here
 [params]

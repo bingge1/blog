@@ -7,7 +7,7 @@
     <img class="post-cover" src="{{ .Params.cover }}" alt="{{ .Title }}">
   {{ end }}
   <p class="post-summary">
-  {{slicestr (.Summary | plainify | htmlUnescape) 0 88}}  
+  {{.Summary}}  
   </p>
   <footer class="post-footer">
     <a class="read-more" href="{{ .Permalink }}">Read More →</a>

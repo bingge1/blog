@@ -1,4 +1,4 @@
-baseURL = "http://www.inspires.cn"
+baseURL = "http://www.inspires.cn/"
 languageCode = "zh-cn"
 title = "Blog For Blockchain"
 theme = "hyde"
